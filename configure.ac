@@ -28,6 +28,7 @@ m4_pattern_allow([PKG_INSTALLDIR])
 # Checks for programs.
 AC_CANONICAL_HOST
 AC_PROG_CC
+ac_prog_cc_stdc=c11
 
 # Dependencies
 PKG_PROG_PKG_CONFIG
