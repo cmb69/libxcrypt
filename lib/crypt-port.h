@@ -242,7 +242,7 @@ extern size_t strcpy_or_abort (void *dst, size_t d_size, const void *src);
 
 /* A construct with the same syntactic role as the expansion of symver_set,
    but which does nothing.  */
-#define symver_nop() __asm__ ("")
+#define symver_nop()
 
 /* The macros for versioned symbols work differently in this library
    than they do in glibc.  They are mostly auto-generated
