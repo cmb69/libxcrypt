@@ -50,6 +50,8 @@
 #   pragma clang diagnostic ignored "-Wvla"
 #  endif
 
+#elif defined(_MSC_VER)
+# define OBSERVE_MEM
 #else
 # error "Don't know how to observe memory access"
 #endif
