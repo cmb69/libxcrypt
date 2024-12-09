@@ -155,7 +155,13 @@ fi
 zw_C_ALIGNAS
 zw_C_ALIGNOF
 zw_C_MAX_ALIGN_T
-zw_C_ENDIANNESS
+#zw_C_ENDIANNESS
+AC_DEFINE_UNQUOTED([ENDIANNESS_IS_BIG], [0],
+  [Define as an @%:@if expression that is true when compiling for a big-endian CPU.])
+AC_DEFINE_UNQUOTED([ENDIANNESS_IS_LITTLE], [1],
+  [Define as an @%:@if expression that is true when compiling for a little-endian CPU.])
+AC_DEFINE_UNQUOTED([ENDIANNESS_IS_PDP], [0],
+  [Define as an @%:@if expression that is true when compiling for a PDP-endian CPU.])
 zw_C_STATIC_ASSERT
 zw_PROG_LD_WRAP
 AX_CHECK_VSCRIPT
