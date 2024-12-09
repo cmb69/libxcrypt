@@ -62,7 +62,7 @@ verify_salt (const char *setting, size_t set_size)
 }
 
 static uint8_t *
-encode64_uint32 (uint8_t * dst, ssize_t dstlen,
+encode64_uint32 (uint8_t * dst, ptrdiff_t dstlen,
                  uint32_t src, uint32_t srcbits)
 {
   uint32_t bit;
@@ -84,7 +84,7 @@ encode64_uint32 (uint8_t * dst, ssize_t dstlen,
 }
 
 static uint8_t *
-encode64 (uint8_t * dst, ssize_t dstlen,
+encode64 (uint8_t * dst, ptrdiff_t dstlen,
           const uint8_t * src, size_t srclen)
 {
   size_t i;
@@ -186,7 +186,7 @@ gensalt_scrypt_rn (unsigned long count,
      large enough to hold the maximum size of the generated salt.  */
   uint8_t outbuf[CRYPT_GENSALT_OUTPUT_SIZE];
   uint8_t *out_p = outbuf + 4;
-  ssize_t out_s = CRYPT_GENSALT_OUTPUT_SIZE - (out_p - outbuf);
+  ptrdiff_t out_s = CRYPT_GENSALT_OUTPUT_SIZE - (out_p - outbuf);
 
   /* Valid cost parameters are from 6 to 11.  The default is 7.
      Any cost parameter below 6 is not to be considered strong
@@ -214,7 +214,7 @@ gensalt_scrypt_rn (unsigned long count,
   uint32_t r = 32;
   uint64_t N = 1ULL << (count + 7); // 6 -> 8192, 7 -> 16384, ... 11 -> 262144
 
-  if (out_s > (ssize_t) BASE64_LEN (30))
+  if (out_s > (ptrdiff_t) BASE64_LEN (30))
     {
       outbuf[0] = '$';
       outbuf[1] = '7';
@@ -225,13 +225,13 @@ gensalt_scrypt_rn (unsigned long count,
       out_s -= (out_p - outbuf);
     }
 
-  if (out_p && out_s > (ssize_t) BASE64_LEN (30))
+  if (out_p && out_s > (ptrdiff_t) BASE64_LEN (30))
     {
       out_p = encode64_uint32 (out_p, out_s, p, 30);
       out_s -= (out_p - outbuf);
     }
 
-  if (out_p && out_s > (ssize_t) BASE64_LEN (nrbytes))
+  if (out_p && out_s > (ptrdiff_t) BASE64_LEN (nrbytes))
     {
       out_p = encode64 (out_p, out_s, rbytes, nrbytes);
     }
