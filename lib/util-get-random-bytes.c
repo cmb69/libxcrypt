@@ -31,6 +31,10 @@
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
+#ifdef _MSC_VER
+#include <Windows.h>
+#include <bcrypt.h>
+#endif
 
 /* If we have O_CLOEXEC, we use it, but if we don't, we don't worry
    about it.  */
@@ -145,6 +149,17 @@ get_random_bytes(void *buf, size_t buflen)
           return !dev_urandom_doesnt_work;
         }
     }
+#endif
+
+#ifdef _MSC_VER
+  BCRYPT_ALG_HANDLE algo;
+  if (!BCRYPT_SUCCESS(BCryptOpenAlgorithmProvider(&algo, BCRYPT_RNG_ALGORITHM, NULL, 0)))
+    return false;
+  if (!BCRYPT_SUCCESS(BCryptGenRandom(algo, buf, (ULONG) buflen, 0)))
+    return false;
+  if (!BCRYPT_SUCCESS(BCryptCloseAlgorithmProvider(algo, 0)))
+    return false;
+  return true;
 #endif
 #endif /* no arc4random_buf */
 
